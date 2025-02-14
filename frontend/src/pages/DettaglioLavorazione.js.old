@@ -1,0 +1,95 @@
+// DettaglioLavorazione.js
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+
+// Context
+import { TabProvider } from '../components/DettagliScheda/context/TabContext';
+
+// Hooks
+import useLavorazione from '../components/DettagliScheda/hooks/useLavorazione';
+
+// Components
+import LavorazioneActions from '../components/DettagliScheda/components/LavorazioneActions';
+import LavorazioneForm from '../components/DettagliScheda/components/LavorazioneForm';
+import LavorazioneHeader from '../components/DettagliScheda/components/LavorazioneHeader';
+import LavorazioneTabs from '../components/DettagliScheda/components/tabs/LavorazioneTabs';
+
+const DettaglioContainer = styled.div`
+    padding: 20px;
+    background: ${({ theme }) => theme.colors.background};
+    min-height: calc(100vh - 64px);
+`;
+
+const DettaglioLavorazione = () => {
+    const { id } = useParams();
+    const { 
+        lavorazione, 
+        loading, 
+        error,
+        saving,
+        handleUpdate,
+        handleSave,
+        handleDelete,
+        handleAvviaCottura,
+        handleAvviaAbbattimento,
+        handleAvviaAssemblaggio,
+        handleCompletaFase,
+        clienti,
+        tipiLavorazione,
+        ricette
+    } = useLavorazione(id);
+
+    if (loading) {
+        return (
+            <div style={{ 
+                padding: '20px',
+                textAlign: 'center' 
+            }}>
+                <h3>Caricamento in corso...</h3>
+                <p>Recupero dati della lavorazione</p>
+            </div>
+        );
+    }
+    
+
+    return (
+        <TabProvider>
+            <DettaglioContainer>
+                {error && (
+                    <div className="error-message">
+                        {error}
+                    </div>
+                )}
+
+                <LavorazioneActions 
+                    onSave={handleSave}
+                    onDelete={handleDelete}
+                    fase={lavorazione.fase}
+                    onAvviaCottura={handleAvviaCottura}
+                    onAvviaAbbattimento={handleAvviaAbbattimento}
+                    onAvviaAssemblaggio={handleAvviaAssemblaggio}
+                    onCompletaFase={handleCompletaFase}
+                    loading={saving}
+                />
+
+                <LavorazioneHeader 
+                    lavorazione={lavorazione}
+                    fase={lavorazione.fase}
+                />
+
+                <LavorazioneTabs />
+
+                <LavorazioneForm 
+                    data={lavorazione}
+                    onUpdate={handleUpdate}
+                    clienti={clienti}
+                    tipiLavorazione={tipiLavorazione}
+                    ricette={ricette}
+                />
+            </DettaglioContainer>
+        </TabProvider>
+    );
+};
+
+export default DettaglioLavorazione;

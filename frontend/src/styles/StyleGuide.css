@@ -1,0 +1,236 @@
+.style-guide {
+    background-color: #f8fafc;
+    min-height: 100vh;
+}
+
+.section-title {
+    color: #1e293b;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+/* Color System */
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.color-box {
+    height: 100px;
+    border-radius: 8px;
+    padding: 1rem;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    font-weight: 500;
+}
+
+.color-box.primary { background-color: #2563eb; }
+.color-box.secondary { background-color: #64748b; }
+.color-box.success { background-color: #16a34a; }
+.color-box.warning { background-color: #eab308; }
+.color-box.danger { background-color: #dc2626; }
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.text-lg { font-size: 1rem; }
+.text-sm { font-size: 0.875rem; }
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1rem 1.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.dashboard-card {
+    background: linear-gradient(45deg, #2563eb, #3b82f6);
+    color: white;
+}
+
+/* Tables */
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background-color: #f8fafc;
+    font-weight: 600;
+    color: #475569;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.table-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Tabs */
+.nav-tabs {
+    border-bottom: 2px solid #dee2e6;
+    margin-bottom: 1.5rem;
+    background: #fff;
+}
+
+.nav-tabs .nav-item {
+   
+    margin-right: 4rem;
+     margin-bottom: -5px;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #495057;
+    padding: 1rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    margin-bottom: -1px;
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: transparent;
+    color: #2563eb;
+}
+
+.nav-tabs .nav-link.active {
+    color: #2563eb;
+    border-bottom: 2px solid #2563eb;
+    background: transparent;
+}
+
+/* Form Elements */
+.form-label {
+    font-weight: 500;
+    color: #475569;
+    margin-bottom: 0.5rem;
+}
+
+.form-control, .form-select {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.2);
+}
+
+.search-input {
+    position: relative;
+}
+
+.search-input svg {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+}
+
+.search-input input {
+    padding-left: 2.5rem;
+}
+
+/* Buttons */
+.btn {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+}
+
+/* Badges */
+.badge {
+    padding: 0.35em 0.65em;
+    font-weight: 500;
+    border-radius: 4px;
+}
+
+/* Progress Bars */
+.progress {
+    height: 0.5rem;
+    background-color: #e2e8f0;
+    border-radius: 1rem;
+}
+
+.progress-bar {
+    background-color: #2563eb;
+}
+
+/* Alerts */
+.alert {
+    border: none;
+    border-radius: 6px;
+    padding: 1rem 1.5rem;
+}
+
+/* Modal */
+.modal-content {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.modal-header {
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1rem 1.5rem;
+}
+
+.modal-footer {
+    border-top: 1px solid #e2e8f0;
+    padding: 1rem 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .table-responsive {
+        margin-bottom: 0;
+    }
+    
+    .nav-tabs .nav-link {
+        padding: 0.75rem 1rem;
+    }
+}

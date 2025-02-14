@@ -1,0 +1,124 @@
+.calendar-container {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin: 20px 0;
+}
+
+.rbc-calendar {
+    font-family: var(--font-family);
+}
+
+.rbc-header {
+    padding: 12px;
+    font-weight: 600;
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #eee;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.rbc-event {
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.rbc-event:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.rbc-today {
+    background-color: rgba(49, 116, 173, 0.05);
+}
+
+.rbc-toolbar {
+    margin-bottom: 20px;
+    padding: 10px 0;
+}
+
+.rbc-toolbar button {
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.rbc-toolbar button:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-1px);
+}
+
+.rbc-toolbar button.rbc-active {
+    background-color: #3174ad;
+    color: white;
+    border-color: #3174ad;
+}
+
+.rbc-month-view {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.rbc-day-bg {
+    transition: background-color 0.2s ease;
+}
+
+.rbc-day-bg:hover {
+    background-color: rgba(49, 116, 173, 0.05);
+}
+
+.rbc-off-range-bg {
+    background-color: #f8f9fa;
+}
+
+.rbc-date-cell {
+    padding: 8px;
+    font-weight: 500;
+}
+
+.rbc-show-more {
+    color: #3174ad;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 2px 5px;
+}
+
+.rbc-show-more:hover {
+    background-color: rgba(49, 116, 173, 0.1);
+    border-radius: 4px;
+}
+
+.rbc-agenda-view table {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.rbc-agenda-view table thead {
+    background-color: #f8f9fa;
+}
+
+.rbc-agenda-view table td {
+    padding: 10px;
+}
+
+.rbc-time-view {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.rbc-timeslot-group {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.rbc-time-header {
+    background-color: #f8f9fa;
+}

@@ -1,0 +1,65 @@
+.recipe-cost-analysis {
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.cost-summary {
+    margin-bottom: 2rem;
+}
+
+.cost-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.cost-item {
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.cost-item label {
+    display: block;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+}
+
+.cost-item input {
+    width: 80px;
+    text-align: center;
+    padding: 0.5rem;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    margin: 0 0.5rem;
+}
+
+.ingredients-cost-breakdown {
+    margin-top: 2rem;
+}
+
+.ingredients-cost-breakdown table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ingredients-cost-breakdown th,
+.ingredients-cost-breakdown td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.ingredients-cost-breakdown thead th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+}
+
+.ingredients-cost-breakdown tbody tr:hover {
+    background: #f8f9fa;
+}

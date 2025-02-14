@@ -1,0 +1,487 @@
+const Ricetta = require('../models/ricettaModel');
+const mongoose = require('mongoose');
+
+// Gestione Ricette
+exports.getAllRicette = async (req, res) => {
+    try {
+        const ricette = await Ricetta.find()
+            .populate('categoria')
+            .populate('ingredienti.ingrediente')
+            .populate('ingredienti.unitaMisura')
+            .populate('fasi.tipoLavorazione')
+            .populate('fasi.metodo');
+        res.status(200).json(ricette);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+exports.getRicettaById = async (req, res) => {
+    try {
+        const ricetta = await Ricetta.findById(req.params.id)
+            .populate('categoria')
+            .populate({
+                path: 'ingredienti.ingrediente',
+                model: 'Ingredient'
+            })
+            .populate({
+                path: 'ingredienti.unitaMisura',
+                model: 'Units'
+            })
+            .populate({
+                path: 'fasi.tipoLavorazione',
+                model: 'FasiType'
+            })
+            .populate({
+                path: 'fasi.metodo',
+                model: 'FasiMethod'
+            });
+        
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+        res.status(200).json(ricetta);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+// Gestione Cotture
+exports.getCotture = async (req, res) => {
+    try {
+        console.log('Getting cotture for recipe:', req.params.id); // Debug log
+        const ricetta = await Ricetta.findById(req.params.id)
+            .populate('cotture.tipoCottura');
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+        res.json(ricetta.cotture || []);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+exports.addCottura = async (req, res) => {
+    try {
+        const ricetta = await Ricetta.findById(req.params.id);
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+
+        // Validazione dati in ingresso
+        const { tipoCottura, temperatura, tempoCottura, note } = req.body;
+        
+        if (!tipoCottura || !temperatura || !tempoCottura) {
+            return res.status(400).json({ 
+                message: 'Dati mancanti o non validi'
+            });
+        }
+
+        const nuovaCottura = {
+            tipoCottura,
+            temperatura: Number(temperatura),
+            tempoCottura: Number(tempoCottura),
+            note,
+            ordine: ricetta.cotture.length
+        };
+        
+        ricetta.cotture.push(nuovaCottura);
+        await ricetta.save();
+
+        const ricettaAggiornata = await Ricetta.findById(req.params.id)
+        .populate({
+            path: 'cotture.tipoCottura',
+            model: 'TipoCottura'  // Usiamo il nome corretto del modello
+        });
+
+        res.status(201).json(ricettaAggiornata.cotture[ricettaAggiornata.cotture.length - 1]);
+    } catch (error) {
+        console.error('Errore salvataggio cottura:', error);
+        res.status(400).json({ 
+            message: error.message,
+            details: error.errors 
+        });
+    }
+};
+
+exports.updateCottura = async (req, res) => {
+    try {
+        const ricetta = await Ricetta.findById(req.params.id);
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+
+        const cotturaIndex = ricetta.cotture.findIndex(
+            c => c._id.toString() === req.params.cotturaId
+        );
+
+        if (cotturaIndex === -1) {
+            return res.status(404).json({ message: 'Cottura non trovata' });
+        }
+
+        // Validazione dati in ingresso
+        const { tipoCottura, temperatura, tempoCottura, note } = req.body;
+        
+        if (!tipoCottura || !temperatura || !tempoCottura) {
+            return res.status(400).json({ 
+                message: 'Dati mancanti o non validi'
+            });
+        }
+
+        ricetta.cotture[cotturaIndex] = {
+            ...ricetta.cotture[cotturaIndex].toObject(),
+            tipoCottura,
+            temperatura: Number(temperatura),
+            tempoCottura: Number(tempoCottura),
+            note,
+            ordine: cotturaIndex
+        };
+
+        await ricetta.save();
+
+        const ricettaAggiornata = await Ricetta.findById(req.params.id)
+            .populate('cotture.tipoCottura');
+
+        res.status(200).json(ricettaAggiornata.cotture[cotturaIndex]);
+    } catch (error) {
+        console.error('Errore aggiornamento cottura:', error);
+        res.status(400).json({ 
+            message: error.message,
+            details: error.errors 
+        });
+    }
+};
+
+exports.deleteCottura = async (req, res) => {
+    try {
+        const ricetta = await Ricetta.findById(req.params.id);
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+
+        const cotturaIndex = ricetta.cotture.findIndex(
+            c => c._id.toString() === req.params.cotturaId
+        );
+
+        if (cotturaIndex === -1) {
+            return res.status(404).json({ message: 'Cottura non trovata' });
+        }
+
+        ricetta.cotture.splice(cotturaIndex, 1);
+
+        // Aggiorna l'ordine delle cotture rimanenti
+        ricetta.cotture = ricetta.cotture.map((cottura, index) => ({
+            ...cottura.toObject(),
+            ordine: index
+        }));
+
+        await ricetta.save();
+
+        const ricettaAggiornata = await Ricetta.findById(req.params.id)
+            .populate('cotture.tipoCottura');
+
+        res.status(200).json(ricettaAggiornata.cotture);
+    } catch (error) {
+        console.error('Errore eliminazione cottura:', error);
+        res.status(400).json({ 
+            message: error.message 
+        });
+    }
+};
+
+exports.reorderCotture = async (req, res) => {
+    try {
+        const ricetta = await Ricetta.findById(req.params.id);
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+
+        const { sourceIndex, destinationIndex } = req.body;
+        const cotture = [...ricetta.cotture];
+        const [removed] = cotture.splice(sourceIndex, 1);
+        cotture.splice(destinationIndex, 0, removed);
+
+        // Aggiorna l'ordine
+        ricetta.cotture = cotture.map((cottura, index) => ({
+            ...cottura.toObject(),
+            ordine: index
+        }));
+
+        await ricetta.save();
+
+        const ricettaAggiornata = await Ricetta.findById(req.params.id)
+            .populate('cotture.tipoCottura');
+
+        res.status(200).json(ricettaAggiornata.cotture);
+    } catch (error) {
+        console.error('Errore riordinamento cotture:', error);
+        res.status(400).json({ 
+            message: error.message 
+        });
+    }
+};
+exports.createRicetta = async (req, res) => {
+    try {
+        // Rimuoviamo eventuali _id dalla request
+        const { _id, ...ricettaData } = req.body;
+        
+        // Genera il numero ricetta
+        const lastRicetta = await Ricetta.findOne().sort({ numeroRicetta: -1 });
+        const lastNumber = lastRicetta ? parseInt(lastRicetta.numeroRicetta.slice(3)) : 0;
+        const newNumber = (lastNumber + 1).toString().padStart(4, '0');
+        const numeroRicetta = `RIC${newNumber}`;
+
+        // Crea la ricetta con il numero generato
+        const ricetta = await Ricetta.create({
+            ...ricettaData,
+            numeroRicetta
+        });
+
+        res.status(201).json(ricetta);
+    } catch (error) {
+        console.error('Error in createRicetta:', error);
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.updateRicetta = async (req, res) => {
+    try {
+        const ricetta = await Ricetta.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true, runValidators: true }
+        ).populate('categoria')
+         .populate('ingredienti.ingrediente')
+         .populate('ingredienti.unitaMisura')
+         .populate('fasi.tipoLavorazione')
+         .populate('fasi.metodo');
+
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+        res.status(200).json(ricetta);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.deleteRicetta = async (req, res) => {
+    try {
+        const ricetta = await Ricetta.findByIdAndDelete(req.params.id);
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+        res.status(200).json({ message: 'Ricetta eliminata con successo' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Gestione Fasi
+exports.getFasi = async (req, res) => {
+    try {
+        const ricetta = await Ricetta.findById(req.params.id)
+            .populate('fasi.tipoLavorazione')
+            .populate('fasi.metodo');
+
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+
+        res.status(200).json(ricetta.fasi);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+exports.addFase = async (req, res) => {
+    try {
+        const ricetta = await Ricetta.findById(req.params.id);
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+
+        const nuovaFase = {
+            ...req.body,
+            ordine: ricetta.fasi.length
+        };
+
+        ricetta.fasi.push(nuovaFase);
+        await ricetta.save();
+
+        const ricettaAggiornata = await Ricetta.findById(req.params.id)
+            .populate('fasi.tipoLavorazione')
+            .populate('fasi.metodo');
+
+        res.status(201).json(ricettaAggiornata.fasi);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.updateFase = async (req, res) => {
+    try {
+        const ricetta = await Ricetta.findById(req.params.id);
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+
+        const faseIndex = parseInt(req.params.faseIndex);
+        if (faseIndex >= ricetta.fasi.length) {
+            return res.status(404).json({ message: 'Fase non trovata' });
+        }
+
+        ricetta.fasi[faseIndex] = {
+            ...ricetta.fasi[faseIndex].toObject(),
+            ...req.body,
+            ordine: faseIndex
+        };
+
+        await ricetta.save();
+
+        const ricettaAggiornata = await Ricetta.findById(req.params.id)
+            .populate('fasi.tipoLavorazione')
+            .populate('fasi.metodo');
+
+        res.status(200).json(ricettaAggiornata.fasi);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.deleteFase = async (req, res) => {
+    try {
+        const ricetta = await Ricetta.findById(req.params.id);
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+
+        const faseIndex = parseInt(req.params.faseIndex);
+        ricetta.fasi.splice(faseIndex, 1);
+
+        // Aggiorna l'ordine delle fasi rimanenti
+        ricetta.fasi = ricetta.fasi.map((fase, index) => ({
+            ...fase.toObject(),
+            ordine: index
+        }));
+
+        await ricetta.save();
+
+        const ricettaAggiornata = await Ricetta.findById(req.params.id)
+            .populate('fasi.tipoLavorazione')
+            .populate('fasi.metodo');
+
+        res.status(200).json(ricettaAggiornata.fasi);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.reorderFasi = async (req, res) => {
+    try {
+        const ricetta = await Ricetta.findById(req.params.id);
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+
+        const { newOrder } = req.body;
+        const fasiRiordinate = newOrder.map((oldIndex, newIndex) => ({
+            ...ricetta.fasi[oldIndex].toObject(),
+            ordine: newIndex
+        }));
+
+        ricetta.fasi = fasiRiordinate;
+        await ricetta.save();
+
+        const ricettaAggiornata = await Ricetta.findById(req.params.id)
+            .populate('fasi.tipoLavorazione')
+            .populate('fasi.metodo');
+
+        res.status(200).json(ricettaAggiornata.fasi);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+// Gestione Ingredienti
+exports.getIngredienti = async (req, res) => {
+    try {
+        const ricetta = await Ricetta.findById(req.params.id)
+            .populate('ingredienti.ingrediente')
+            .populate('ingredienti.unitaMisura');
+
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+
+        res.status(200).json(ricetta.ingredienti);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+exports.addIngrediente = async (req, res) => {
+    try {
+        const ricetta = await Ricetta.findById(req.params.id);
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+
+        ricetta.ingredienti.push(req.body);
+        await ricetta.save();
+
+        const ricettaAggiornata = await Ricetta.findById(req.params.id)
+            .populate('ingredienti.ingrediente')
+            .populate('ingredienti.unitaMisura');
+
+        res.status(201).json(ricettaAggiornata.ingredienti);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.updateIngrediente = async (req, res) => {
+    try {
+        const ricetta = await Ricetta.findById(req.params.id);
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+
+        const ingredienteIndex = parseInt(req.params.ingredienteIndex);
+        ricetta.ingredienti[ingredienteIndex] = {
+            ...ricetta.ingredienti[ingredienteIndex].toObject(),
+            ...req.body
+        };
+
+        await ricetta.save();
+
+        const ricettaAggiornata = await Ricetta.findById(req.params.id)
+            .populate('ingredienti.ingrediente')
+            .populate('ingredienti.unitaMisura');
+
+        res.status(200).json(ricettaAggiornata.ingredienti);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+exports.deleteIngrediente = async (req, res) => {
+    try {
+        const ricetta = await Ricetta.findById(req.params.id);
+        if (!ricetta) {
+            return res.status(404).json({ message: 'Ricetta non trovata' });
+        }
+
+        const ingredienteIndex = parseInt(req.params.ingredienteIndex);
+        ricetta.ingredienti.splice(ingredienteIndex, 1);
+        await ricetta.save();
+
+        const ricettaAggiornata = await Ricetta.findById(req.params.id)
+            .populate('ingredienti.ingrediente')
+            .populate('ingredienti.unitaMisura');
+
+        res.status(200).json(ricettaAggiornata.ingredienti);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+    
+};

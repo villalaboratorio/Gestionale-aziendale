@@ -1,0 +1,121 @@
+.recent-works {
+    background: var(--primary-bg);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--card-shadow);
+}
+
+.recent-works h2 {
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.works-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.work-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.work-card {
+    background: var(--secondary-bg);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    transition: transform 0.2s ease;
+    border: 1px solid var(--border-color);
+}
+
+.work-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.work-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.work-header h3 {
+    font-size: var(--font-size-md);
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.work-client {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.work-details {
+    margin-bottom: var(--spacing-sm);
+}
+
+.work-details p {
+    margin: var(--spacing-xs) 0;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.progress-bar {
+    height: 4px;
+    background: var(--border-color);
+    border-radius: 2px;
+    margin: var(--spacing-sm) 0;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.work-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--spacing-sm);
+}
+
+.completion {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.status {
+    padding: 4px 8px;
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-xs);
+    text-transform: capitalize;
+}
+
+.status.in-lavorazione {
+    background: var(--warning-bg);
+    color: var(--warning-color);
+}
+
+.status.completata {
+    background: var(--success-bg);
+    color: var(--success-color);
+}
+
+.status.in-attesa {
+    background: var(--info-bg);
+    color: var(--info-color);
+}
+
+@media (max-width: 768px) {
+    .recent-works {
+        padding: var(--spacing-md);
+    }
+
+    .work-card {
+        padding: var(--spacing-sm);
+    }
+}

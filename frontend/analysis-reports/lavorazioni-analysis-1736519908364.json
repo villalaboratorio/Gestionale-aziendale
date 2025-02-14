@@ -1,0 +1,359 @@
+{
+  "timestamp": "2025-01-10T14:38:28.361Z",
+  "summary": {
+    "totalComponents": 6,
+    "totalHooks": 2,
+    "totalContexts": 1
+  },
+  "components": {
+    "dashboard": [],
+    "dettaglio": [],
+    "haccp": [
+      [
+        "components/DettagliScheda/components/sections/InformazioniGeneraliHACCP.js",
+        {
+          "stateManagement": {
+            "useState": [],
+            "useReducer": [],
+            "useContext": [],
+            "customHooks": [
+              "useInformazioniGenerali"
+            ]
+          },
+          "apiCalls": [],
+          "dependencies": {
+            "internal": {},
+            "external": {}
+          },
+          "complexity": {
+            "cyclomaticComplexity": 14,
+            "dependencies": 0,
+            "stateVariables": 0,
+            "props": {}
+          }
+        }
+      ],
+      [
+        "components/DettagliScheda/components/sections/CotturaHACCP.js",
+        {
+          "stateManagement": {
+            "useState": [
+              {
+                "type": "useState",
+                "location": {
+                  "start": {
+                    "line": 17,
+                    "column": 44,
+                    "index": 745
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 6,
+                    "index": 963
+                  }
+                }
+              }
+            ],
+            "useReducer": [],
+            "useContext": [],
+            "customHooks": [
+              "useCottura",
+              "useParametriHACCP"
+            ]
+          },
+          "apiCalls": [],
+          "dependencies": {
+            "internal": {},
+            "external": {}
+          },
+          "complexity": {
+            "cyclomaticComplexity": 10,
+            "dependencies": 0,
+            "stateVariables": 0,
+            "props": {}
+          }
+        }
+      ],
+      [
+        "components/DettagliScheda/components/sections/ConservazioneHACCP.js",
+        {
+          "stateManagement": {
+            "useState": [
+              {
+                "type": "useState",
+                "location": {
+                  "start": {
+                    "line": 60,
+                    "column": 46,
+                    "index": 1424
+                  },
+                  "end": {
+                    "line": 79,
+                    "column": 6,
+                    "index": 1887
+                  }
+                }
+              },
+              {
+                "type": "useState",
+                "initialValue": false,
+                "location": {
+                  "start": {
+                    "line": 81,
+                    "column": 32,
+                    "index": 1928
+                  },
+                  "end": {
+                    "line": 81,
+                    "column": 47,
+                    "index": 1943
+                  }
+                }
+              },
+              {
+                "type": "useState",
+                "location": {
+                  "start": {
+                    "line": 82,
+                    "column": 30,
+                    "index": 1976
+                  },
+                  "end": {
+                    "line": 82,
+                    "column": 44,
+                    "index": 1990
+                  }
+                }
+              },
+              {
+                "type": "useState",
+                "initialValue": false,
+                "location": {
+                  "start": {
+                    "line": 83,
+                    "column": 34,
+                    "index": 2027
+                  },
+                  "end": {
+                    "line": 83,
+                    "column": 49,
+                    "index": 2042
+                  }
+                }
+              }
+            ],
+            "useReducer": [],
+            "useContext": [],
+            "customHooks": []
+          },
+          "apiCalls": [],
+          "dependencies": {
+            "internal": {},
+            "external": {}
+          },
+          "complexity": {
+            "cyclomaticComplexity": 8,
+            "dependencies": 0,
+            "stateVariables": 0,
+            "props": {}
+          }
+        }
+      ]
+    ]
+  },
+  "stateManagement": {
+    "hooks": [
+      [
+        "components/DettagliScheda/hooks/useLavorazione.js",
+        {
+          "dependencies": {
+            "internal": {},
+            "external": {}
+          },
+          "stateUsage": {
+            "useState": [
+              {
+                "type": "useState",
+                "location": {
+                  "start": {
+                    "line": 31,
+                    "column": 30,
+                    "index": 898
+                  },
+                  "end": {
+                    "line": 31,
+                    "column": 52,
+                    "index": 920
+                  }
+                }
+              }
+            ],
+            "useReducer": [],
+            "useContext": [],
+            "customHooks": [
+              "useNavigate",
+              "useCallback",
+              "useCallback",
+              "useCallback",
+              "useCallback",
+              "useCallback",
+              "useCallback",
+              "useCallback",
+              "useCallback",
+              "useCallback"
+            ]
+          },
+          "complexity": {
+            "cyclomaticComplexity": 8,
+            "dependencies": 0,
+            "stateVariables": 0,
+            "props": {}
+          }
+        }
+      ],
+      [
+        "components/DettagliScheda/hooks/useInformazioniGenerali.js",
+        {
+          "dependencies": {
+            "internal": {},
+            "external": {}
+          },
+          "stateUsage": {
+            "useState": [
+              {
+                "type": "useState",
+                "location": {
+                  "start": {
+                    "line": 8,
+                    "column": 30,
+                    "index": 309
+                  },
+                  "end": {
+                    "line": 27,
+                    "column": 6,
+                    "index": 762
+                  }
+                }
+              }
+            ],
+            "useReducer": [],
+            "useContext": [],
+            "customHooks": [
+              "useCallback",
+              "useCallback",
+              "useCallback",
+              "useCallback",
+              "useCallback",
+              "useCallback",
+              "useCallback",
+              "useCallback",
+              "useCallback",
+              "useCallback",
+              "useCallback",
+              "useCallback"
+            ]
+          },
+          "complexity": {
+            "cyclomaticComplexity": 29,
+            "dependencies": 0,
+            "stateVariables": 0,
+            "props": {}
+          }
+        }
+      ]
+    ],
+    "context": [
+      [
+        "components/DettagliScheda/context/TabContext.js",
+        {
+          "providers": [],
+          "consumers": [
+            {
+              "contextName": "TabContext",
+              "location": {
+                "start": {
+                  "line": 54,
+                  "column": 20,
+                  "index": 1518
+                },
+                "end": {
+                  "line": 54,
+                  "column": 42,
+                  "index": 1540
+                }
+              }
+            }
+          ],
+          "dependencies": {
+            "internal": {},
+            "external": {}
+          }
+        }
+      ]
+    ]
+  },
+  "apiUsage": {
+    "endpoints": [],
+    "patterns": {
+      "get": 0,
+      "post": 0,
+      "put": 0,
+      "delete": 0
+    }
+  },
+  "metrics": {
+    "complexity": [],
+    "performance": [
+      {
+        "component": "components/DettagliScheda/components/tabs/LavorazioneTabs.js",
+        "stateComplexity": 0,
+        "apiCalls": 0,
+        "dependencies": 5
+      },
+      {
+        "component": "components/DettagliScheda/components/LavorazioneForm.js",
+        "stateComplexity": 0,
+        "apiCalls": 0,
+        "dependencies": 2
+      },
+      {
+        "component": "components/DettagliScheda/components/LavorazioneActions.js",
+        "stateComplexity": 0,
+        "apiCalls": 0,
+        "dependencies": 3
+      },
+      {
+        "component": "components/DettagliScheda/components/sections/InformazioniGeneraliHACCP.js",
+        "stateComplexity": 0,
+        "apiCalls": 0,
+        "dependencies": 4
+      },
+      {
+        "component": "components/DettagliScheda/components/sections/CotturaHACCP.js",
+        "stateComplexity": 1,
+        "apiCalls": 0,
+        "dependencies": 10
+      },
+      {
+        "component": "components/DettagliScheda/components/sections/ConservazioneHACCP.js",
+        "stateComplexity": 4,
+        "apiCalls": 0,
+        "dependencies": 4
+      }
+    ]
+  },
+  "recommendations": [
+    {
+      "type": "complexity",
+      "component": "components/DettagliScheda/components/LavorazioneForm.js",
+      "severity": "high",
+      "message": "Componente troppo complesso, considerare la suddivisione"
+    },
+    {
+      "type": "complexity",
+      "component": "components/DettagliScheda/components/sections/InformazioniGeneraliHACCP.js",
+      "severity": "high",
+      "message": "Componente troppo complesso, considerare la suddivisione"
+    }
+  ]
+}

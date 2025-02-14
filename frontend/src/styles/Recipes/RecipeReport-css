@@ -1,0 +1,83 @@
+.recipe-reports {
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+}
+
+.recipe-reports .card {
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.recipe-reports .card-header {
+    background: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    padding: 1rem 1.5rem;
+}
+
+.recipe-reports .card-header h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.recipe-reports table {
+    margin-bottom: 0;
+}
+
+.recipe-reports th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+}
+
+.recipe-reports td, 
+.recipe-reports th {
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+}
+
+.export-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.export-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-pdf {
+    background: #dc3545;
+    color: white;
+    border: none;
+}
+
+.btn-excel {
+    background: #28a745;
+    color: white;
+    border: none;
+}
+
+.btn-print {
+    background: #6c757d;
+    color: white;
+    border: none;
+}
+
+.btn-pdf:hover {
+    background: #c82333;
+}
+
+.btn-excel:hover {
+    background: #218838;
+}
+
+.btn-print:hover {
+    background: #5a6268;
+}

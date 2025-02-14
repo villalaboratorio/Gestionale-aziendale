@@ -1,0 +1,197 @@
+.modale-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modale-conferma {
+    background: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modale-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modale-header h2 {
+    margin: 0;
+    color: #1e293b;
+    font-size: 1.5rem;
+}
+
+.chiudi-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #64748b;
+}
+
+.modale-content {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.riepilogo-lavorazioni {
+    margin-bottom: 1.5rem;
+}
+
+.lavorazione-item {
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    background: #f8fafc;
+}
+
+.lavorazione-info {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr 1fr;
+    gap: 1rem;
+    align-items: center;
+}
+
+.lavorazione-info span {
+    color: #1e293b;
+}
+
+.modale-footer {
+    padding: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.conferma-btn,
+.annulla-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.conferma-btn {
+    background: #2563eb;
+    color: white;
+    border: none;
+}
+
+.conferma-btn:hover:not(:disabled) {
+    background: #1d4ed8;
+}
+
+.annulla-btn {
+    background: white;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+}
+
+.annulla-btn:hover:not(:disabled) {
+    background: #f8fafc;
+}
+
+.error-message {
+    padding: 1rem;
+    background: #fee2e2;
+    color: #dc2626;
+    border-radius: 4px;
+    margin-top: 1rem;
+}
+
+.conferma-btn:disabled,
+.annulla-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.modale-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    cursor: pointer; /* Indica che è cliccabile */
+}
+
+.modale-conferma {
+    cursor: default; /* Ripristina il cursore normale */
+    /* ... resto degli stili ... */
+}
+@media (max-width: 768px) {
+    .modale-conferma {
+        width: 95%;
+        margin: 10px;
+        max-height: 80vh;
+    }
+
+    .lavorazione-info {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .modale-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .modale-footer {
+        padding: 1rem;
+        flex-direction: column-reverse;
+        gap: 0.5rem;
+    }
+
+    .conferma-btn,
+    .annulla-btn {
+        width: 100%;
+    }
+}
+@media (max-width: 768px) {
+    .modale-conferma {
+        width: 95%;
+        margin: 10px;
+        max-height: 80vh;
+    }
+
+    .lavorazione-info {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .modale-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .modale-footer {
+        padding: 1rem;
+        flex-direction: column-reverse;
+        gap: 0.5rem;
+    }
+
+    .conferma-btn,
+    .annulla-btn {
+        width: 100%;
+    }
+}

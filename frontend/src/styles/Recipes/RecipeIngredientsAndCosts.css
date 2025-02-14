@@ -1,0 +1,75 @@
+.recipe-ingredients-costs {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.ingredients-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.ingredients-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ingredients-table th,
+.ingredients-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.ingredients-table thead th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+}
+
+.ingredients-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.ingredients-table tfoot {
+    font-weight: 600;
+    background: #f8f9fa;
+}
+
+.ingredients-table tfoot td {
+    border-top: 2px solid #dee2e6;
+}
+
+.btn-add {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-add:hover {
+    background: #0056b3;
+}
+
+.btn-delete {
+    padding: 0.5rem;
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+    color: #c82333;
+}

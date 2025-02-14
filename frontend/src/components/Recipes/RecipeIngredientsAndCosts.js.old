@@ -1,0 +1,106 @@
+import React, { useState, useEffect, useCallback } from 'react';
+import { Table, Card, Spinner, Alert } from 'react-bootstrap';
+import { costService } from '../../services/costService';
+
+const RecipeIngredientsAndCosts = ({ recipeId }) => {
+    const [costsData, setCostsData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    const loadCostsData = useCallback(async () => {
+        if (!recipeId) return;
+        
+        try {
+            setLoading(true);
+            const data = await costService.getRecipeCosts(recipeId);
+            setCostsData(data);
+        } catch (err) {
+            setError('Errore nel caricamento dei costi della ricetta');
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    }, [recipeId]);
+
+    useEffect(() => {
+        loadCostsData();
+    }, [loadCostsData]);
+
+    if (loading) {
+        return (
+            <Card>
+                <Card.Body className="text-center">
+                    <Spinner animation="border" />
+                </Card.Body>
+            </Card>
+        );
+    }
+
+    if (error) {
+        return <Alert variant="danger">{error}</Alert>;
+    }
+
+    if (!costsData?.ingredients?.length) {
+        return (
+            <Card>
+                <Card.Body>
+                    <Alert variant="info">Nessun dato sui costi disponibile</Alert>
+                </Card.Body>
+            </Card>
+        );
+    }
+
+    return (
+        <Card className="recipe-ingredients-costs">
+            <Card.Header>
+                <h3 className="mb-0">Costi Ricetta</h3>
+            </Card.Header>
+            <Card.Body>
+                <Table responsive striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>Ingrediente</th>
+                            <th>Quantità</th>
+                            <th>Unità</th>
+                            <th>Calo Peso %</th>
+                            <th>Costo Unitario</th>
+                            <th>Costo Totale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {costsData.ingredients.map((ing, index) => (
+                            <tr key={index}>
+                                <td>{ing?.nome || 'N/D'}</td>
+                                <td>{ing?.quantita || 0}</td>
+                                <td>{ing?.unitaMisura || 'N/D'}</td>
+                                <td>{(ing?.caloPeso || 0)}%</td>
+                                <td>{(ing?.costoUnitario || 0).toFixed(2)} €</td>
+                                <td>{(ing?.costoTotale || 0).toFixed(2)} €</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colSpan="5" className="text-end">
+                                <strong>Costo Totale Ricetta</strong>
+                            </td>
+                            <td>
+                                <strong>{(costsData.total?.costoTotale || 0).toFixed(2)} €</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan="5" className="text-end">
+                                <strong>Costo per Porzione</strong>
+                            </td>
+                            <td>
+                                <strong>{(costsData.total?.costoPerPorzione || 0).toFixed(2)} €</strong>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </Table>
+            </Card.Body>
+        </Card>
+    );
+};
+
+export default RecipeIngredientsAndCosts;

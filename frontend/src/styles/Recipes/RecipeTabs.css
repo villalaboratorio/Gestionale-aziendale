@@ -1,0 +1,67 @@
+.recipe-tabs-container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.recipe-tabs {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-tabs {
+    border-bottom: 2px solid #dee2e6;
+    padding: 0;
+    background: #f8f9fa;
+    border-radius: 8px 8px 0 0;
+}
+
+.nav-tabs .nav-item {
+    margin-bottom: -2px;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #495057;
+    padding: 1rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: transparent;
+    color: #007bff;
+}
+
+.nav-tabs .nav-link.active {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    background: transparent;
+}
+
+.tab-content-wrapper {
+    padding: 1.5rem;
+    background: white;
+    border-radius: 0 0 8px 8px;
+}
+
+.tab-content {
+    margin-top: 0;
+}
+
+.tab-pane {
+    background: #fff;
+    border-radius: 0 0 8px 8px;
+}
+
+@media (max-width: 768px) {
+    .nav-tabs .nav-link {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .tab-content-wrapper {
+        padding: 1rem;
+    }
+}

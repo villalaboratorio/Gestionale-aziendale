@@ -1,0 +1,70 @@
+.quick-filters {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--primary-bg);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--card-shadow);
+}
+
+.search-group {
+    width: 100%;
+}
+
+.filter-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    background: var(--secondary-bg);
+    color: var(--text-primary);
+}
+
+.filter-group {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.filter-select {
+    min-width: 200px;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    background: var(--secondary-bg);
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.actions-group {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-btn.clear {
+    background: var(--error-color);
+    color: white;
+}
+
+.filter-btn.clear:hover {
+    background: var(--error-color-dark);
+}
+
+@media (max-width: 768px) {
+    .filter-group {
+        flex-direction: column;
+    }
+    
+    .filter-select {
+        width: 100%;
+    }
+}

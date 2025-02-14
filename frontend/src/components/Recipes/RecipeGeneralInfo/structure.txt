@@ -1,0 +1,7 @@
+Elenco del percorso delle cartelle per il volume OS
+Numero di serie del volume: 9237-F905
+C:.
++---components
+¦   +---Ingredients
++---hooks
++---utils

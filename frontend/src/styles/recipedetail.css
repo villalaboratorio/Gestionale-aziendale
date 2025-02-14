@@ -1,0 +1,116 @@
+.page-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 16px;
+}
+
+.back-button:hover {
+    color: #333;
+}
+
+.action-button {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.action-button:hover {
+    background: #e9ecef;
+}
+
+.content {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Stili per le tab */
+.recipe-tabs {
+    padding: 0 20px;
+}
+
+.recipe-tabs {
+    padding: 0 20px;
+}
+
+.recipe-tabs .nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    gap: 8px;
+    flex-wrap: nowrap;  /* Impedisce il wrap delle tab */
+    overflow-x: auto;   /* Permette lo scroll orizzontale se necessario */
+}
+
+.recipe-tabs .nav-link {
+    color: #495057;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    position: relative;
+    white-space: nowrap;  /* Mantiene il testo su una singola riga */
+    min-width: max-content; /* Assicura che il contenuto non venga compresso */
+}
+
+.recipe-tabs .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: transparent;
+    transition: background 0.2s;
+}
+
+.recipe-tabs .nav-link:hover::after {
+    background: #007bff;
+}
+
+.recipe-tabs .nav-link.active {
+    color: #007bff;
+    font-weight: 600;
+}
+
+.recipe-tabs .nav-link.active::after {
+    background: #007bff;
+}
+
+
+.tab-content {
+    padding: 20px;
+}
+
+.tab-pane {
+    min-height: 400px;
+}

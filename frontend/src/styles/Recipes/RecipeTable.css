@@ -1,0 +1,91 @@
+.recipe-table-container {
+    background: var(--primary-bg);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+}
+
+.recipe-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.recipe-table th {
+    background: var(--secondary-bg);
+    padding: var(--spacing-md);
+    text-align: left;
+    color: var(--text-primary);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.recipe-table td {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+.recipe-table tbody tr:hover {
+    background: var(--hover-bg);
+}
+
+.table-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--border-radius-sm);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: white;
+}
+
+.action-btn.view {
+    background: var(--primary-color);
+}
+
+.action-btn.view:hover {
+    background: var(--primary-color-dark);
+}
+
+.action-btn.edit {
+    background: var(--warning-color);
+}
+
+.action-btn.edit:hover {
+    background: var(--warning-color-dark);
+}
+
+.action-btn.delete {
+    background: var(--error-color);
+}
+
+.action-btn.delete:hover {
+    background: var(--error-color-dark);
+}
+
+@media (max-width: 1024px) {
+    .recipe-table-container {
+        overflow-x: auto;
+    }
+    
+    .recipe-table {
+        min-width: 800px;
+    }
+}
+.action-btn.preview {
+    background: var(--secondary-color);
+}
+
+.action-btn.preview:hover {
+    background: var(--secondary-color-dark);
+}
