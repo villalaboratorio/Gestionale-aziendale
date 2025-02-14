@@ -27,7 +27,6 @@ import FasiTypePage from './pages/FasiTypePage';
 import FasiMethodPage from './pages/FasiMethodPage';
 import './styles/StyleGuide.css';
 import TipoCotturaPage from './pages/TipoCotturaPage';
-import MockupLayout from './components/PianificazioneLavorazione/MockupLayout';
 
 function App() {
     return (
@@ -36,7 +35,6 @@ function App() {
                 <Router>
                     <Layout>
                         <Routes>
-                            <Route path="/pianificazione" element={<MockupLayout />} />
                             {/* Rotte principali */}
                             <Route path="/" element={<HomePage />} />
                             <Route path="/pannello-opzioni" element={<PannelloOpzioni />} />
