@@ -1,217 +1,283 @@
-# Stato Attuale Gestionale
+OCUMENTO MAPPATURA COMPLETA MODULI
 
-## Componenti Critici (208 totali)
-- Componenti duplicati
-- Componenti con logica mescolata
-- Aree di sovrapposizione funzionale
+MODULO: CLIENTI
+Backend:
+Controllers:
+- clienteController.js
+  ↳ CRUD operations
+  ↳ Gestione contatti
+  
+Models:
+- clienteModel.js
+  ↳ Schema cliente
+  ↳ Validazioni
 
-## Dipendenze Principali
-- Core Dependencies (react, router, styled-components)
-- UI Libraries
-- Custom Hooks e Utilities
+Routes:
+- clienteRoutes.js
+  ↳ /api/clienti
+  ↳ /api/clienti/:id
 
-## Problemi Identificati
-- Struttura da ottimizzare
-- Gestione stato da centralizzare
-- Pattern da standardizzare
+Frontend:
+Components:
+- ClientiPage.js
+- SchedaCliente.js
+- ClienteModal.js
 
-Copy
+Hooks:
+- useCliente.js
+- useClientiList.js
 
-Apply
+API:
+- getClienti()
+- getClienteById()
+- createCliente()
+- updateCliente()
+- deleteCliente()
 
-Piano di Refactoring:
-# Piano di Intervento
-
-## Fase 1: Riorganizzazione Strutturale
-- Standardizzazione cartelle
-- Separazione logica/UI
-- Consolidamento componenti comuni
-
-## Fase 2: Ottimizzazione State Management
-- Implementazione Context API
-- Riduzione prop drilling
-- Gestione cache e performance
-
-## Fase 3: Standardizzazione Pattern
-- Implementazione HOC
-- Custom Hooks comuni
-- Utility functions centralizzate
-
-# Report Analisi Gestionale
-
-## 1. Metriche Generali
-- Componenti Totali: 208
-- File Principali: 95
-- Dipendenze Esterne: 15
-- Custom Hooks: 25+
-
-## 2. Struttura Componenti
-### Core Components
-- Layout
-- Navbar
-- Common UI Elements (Button, Card, Select)
-
-### Feature Components
-- Lavorazione
-- Pianificazione
-- HACCP
-- Ricette
-- Materiali
-
-### Pages
-- Dashboard
-- Dettaglio Lavorazione
-- Pianificazione
-- Configurazioni
-
-## 3. Pattern Identificati
-### Positivi
-- Utilizzo Components/Pages separation
-- Custom Hooks per logica
-- Context API per state management
-
-### Da Ottimizzare
-- Duplicazione logica tra componenti
-- Mix di responsabilità
-- Prop drilling in alcuni componenti
-
-## 4. Dipendenze Principali
-### UI/Framework
-- react
-- react-router-dom
-- styled-components
-- react-bootstrap
-- react-icons
-
-### Utility
-- axios
-- moment
-- react-big-calendar
-
-### Custom
-- Hooks personalizzati
-- Context personalizzati
-- Utility functions
-
-## 5. Aree di Intervento Prioritarie
-1. Standardizzazione struttura cartelle
-2. Consolidamento componenti duplicati
-3. Centralizzazione state management
-4. Ottimizzazione performance
-5. Implementazione pattern consistenti
-
-## 6. Metriche di Performance
-- Bundle size
-- Rendering cycles
-- State updates
-- Network calls
-
-## 7. Raccomandazioni Tecniche
-1. Implementare lazy loading
-2. Consolidare componenti comuni
-3. Standardizzare gestione stato
-4. Ottimizzare routing structure
-5. Implementare error boundaries
-
-
-
-
-Ecco la documentazione completa dell'analisi del progetto:
-
-Analisi Tecnica Gestionale Frontend
-1. Overview Generale
-Componenti Totali: 208
-Route Principali: 15
-Custom Hooks: 25+
-Contesti: 8
-2. Struttura Applicazione
-Core Components
-Layout
-Navbar
-Common UI Elements
-Form Components
-Feature Modules
-Lavorazione
-Pianificazione
-HACCP
-Ricette
-Materiali
-3. Analisi Dipendenze
-Esterne
-- react
-- react-router-dom
-- styled-components
-- react-bootstrap
-- axios
-- moment
+Store:
+- clientiStore.js
 
 Copy
 
 Apply
 
-Interne
-Custom Hooks
-Utility Functions
-Shared Components
-4. Performance Metrics
-Componenti Critici
-DettaglioLavorazione (size: large)
-PianificazioneLavorazioni (complexity: high)
-InformazioniGeneraliHACCP (state management: complex)
-Ottimizzazioni Raccomandate
-Code Splitting
-Lazy Loading
-Memorization
-State Management Centralization
-5. Pattern Identificati
-Positivi
-Component Composition
-Custom Hooks per logica
-Context API per state
-Styled Components per styling
-Da Migliorare
-Prop Drilling in alcuni componenti
-Duplicazione logica
-Mix di responsabilità
-6. Piano di Refactoring
-Fase 1: Struttura
-Riorganizzazione cartelle
-Standardizzazione naming
-Consolidamento componenti comuni
-Fase 2: Performance
-Implementazione lazy loading
-Ottimizzazione bundle size
-Miglioramento caching
-Fase 3: Manutenibilità
-Documentazione componenti
-Testing automation
-Error boundaries
-7. Raccomandazioni Tecniche
-Priorità Alta
-Centralizzare state management
-Ridurre dimensione componenti
-Implementare error handling
-Priorità Media
-Migliorare type safety
-Standardizzare form handling
-Ottimizzare routing
-Priorità Bassa
-Aggiornare dipendenze
-Migliorare documentazione
-Aggiungere test
-8. Metriche di Qualità
-Bundle Size: X KB
-Tempo di Caricamento: Y ms
-Complessità Ciclomatica: Z
-Test Coverage: W%
-9. Next Steps
-Review del piano con il team
-Prioritizzazione interventi
-Setup monitoring
-Implementazione graduale
-Questa documentazione fornisce una base solida per:
+MODULO: RICETTE
+Backend:
+Controllers:
+- ricettaController.js
+- categoryRecipesController.js
 
-Pianificare il refactoring
-Prioritizzare gli interventi
-Monitorare i progressi
-Mantenere la qualità del codice
+Models:
+- ricettaModel.js
+- categoryRecipesModel.js
+
+Routes:
+- ricettaRoutes.js
+  ↳ /api/ricette
+  ↳ /api/category-recipes
+
+Frontend:
+Components:
+- RecipesPage.js
+- RecipeDetail.js
+- RecipeForm.js
+- RecipeIngredients/
+  ↳ IngredientList
+  ↳ IngredientForm
+- RecipeGeneralInfo/
+- CookingSteps/
+- PreparationSteps/
+
+Hooks:
+- useRecipe.js
+- useRecipeIngredients.js
+- useRecipeSteps.js
+- useCookingSteps.js
+
+API:
+- RecipeApi.js
+- ingredientsApi.js
+
+Store:
+- recipeStore.js
+
+Copy
+
+Apply
+
+MODULO: LAVORAZIONI
+Backend:
+Controllers:
+- lavorazioneController.js
+- dettaglioLavorazioneController.js
+
+Models:
+- lavorazioneModel.js
+- dettaglioLavorazioneModel.js
+
+Routes:
+- lavorazioneRoutes.js
+- dettaglioLavorazioneRoutes.js
+
+Frontend:
+Components:
+/features/lavorazioni/
+  ↳ LavorazioniDashboard
+  ↳ DettaglioLavorazione
+  ↳ tabs/
+    - InformazioniGenerali
+    - IngredientiHACCP
+    - PassaggiLavorazione
+    - Assemblaggio
+    - Cottura
+    - Abbattimento
+
+Hooks:
+- useLavorazione.js
+- useLavorazioneState.ts
+- useInformazioniGenerali.js
+- useAssemblaggio.js
+- useCottura.js
+- useParametriHACCP.js
+
+API:
+- LavorazioneApi.js
+
+Store:
+- lavorazioneStore.js
+
+Copy
+
+Apply
+
+MODULO: MATERIE PRIME
+Backend:
+Controllers:
+- materiePrimeController.js
+
+Models:
+- materiaPrimaModel.js
+
+Routes:
+- materiePrimeRoutes.js
+
+Frontend:
+Components:
+- MateriePrime.js
+- MateriaPrimaModal.js
+- PrelievoMateriePrimeModal.js
+
+Hooks:
+- useMateriePrime.js
+- usePrelievo.js
+
+API:
+- materiePrimeApi.js
+
+Store:
+- materiePrimeStore.js
+
+Copy
+
+Apply
+
+MODULO: UTILITIES (PANNELLO OPZIONI)
+Backend:
+Controllers:
+- unitsController.js
+- quantityTypesController.js
+- processingStatesController.js
+- processingTypesController.js
+- categoryGoodsController.js
+- fasiTypeController.js
+- fasiMethodController.js
+- tipoCotturaController.js
+
+Models:
+- unitsModel.js
+- quantityTypesModel.js
+- processingStatesModel.js
+- processingTypesModel.js
+- categoryGoodsModel.js
+- fasiTypeModel.js
+- fasiMethodModel.js
+- tipoCotturaModel.js
+
+Routes:
+- unitsRoutes.js
+- quantityTypesRoutes.js
+- processingStatesRoutes.js
+- processingTypesRoutes.js
+- categoryGoodsRoutes.js
+- fasiTypeRoutes.js
+- fasiMethodRoutes.js
+- tipoCotturaRoutes.js
+
+Frontend:
+Components:
+- PannelloOpzioni.js
+- UnitsPage.js
+- QuantityTypesPage.js
+- ProcessingStatesPage.js
+- ProcessingTypesPage.js
+- CategoryGoodsPage.js
+- FasiTypePage.js
+- FasiMethodPage.js
+- TipoCotturaPage.js
+
+Modals:
+- UnitModal.js
+- CategoryModal.js
+- FasiTypeModal.js
+- FasiMethodModal.js
+- TipoCotturaModal.js
+
+Hooks:
+- useUnits.js
+- useCategories.js
+- useFasiTypes.js
+- useFasiMethods.js
+- useTipoCottura.js
+
+API:
+- utilsApi.js
+
+Copy
+
+Apply
+
+MODULO: PIANIFICAZIONE
+Backend:
+Controllers:
+- pianificazioneController.js
+
+Models:
+- pianificazioneModel.js
+
+Routes:
+- pianificazioneRoutes.js
+
+Frontend:
+Components:
+/PianificazioneLavorazione/
+  ↳ BrogliaccioLavorazioni.js
+  ↳ ConfermaLavorazione.js
+  ↳ LavorazioniParcheggiate.js
+  ↳ MateriePrimeList.js
+  ↳ SuggerimentiLavorazione.js
+
+Utils:
+- calculations.js
+- ingredientMatching.js
+- storage.js
+- trackingSystem.js
+- validations.js
+
+Hooks:
+- usePianificazione.js
+- useSuggerimenti.js
+- useMateriePrime.js
+
+Context:
+- PianificazioneContext.js
+
+API:
+- pianificazioneApi.js
+
+Copy
+
+Apply
+
+Ogni modulo include anche:
+
+Test files
+Style files
+Type definitions
+Documentation
+Configuration
+Le dipendenze tra moduli sono gestite attraverso:
+
+Database relations
+API calls
+Store references
+Context providers

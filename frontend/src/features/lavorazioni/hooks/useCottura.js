@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect , useRef} from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import LavorazioneApi from '../services/LavorazioneApi';
 
 const useCottura = (lavorazioneId) => {
@@ -6,6 +6,7 @@ const useCottura = (lavorazioneId) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const cache = useRef(new Map());
+    const [ricettaParams, setRicettaParams] = useState(null);
 
     const getCotture = useCallback(async (force = false) => {
         console.group('📥 Recupero Cotture');
@@ -23,6 +24,10 @@ const useCottura = (lavorazioneId) => {
                 const cottureData = response.data;
                 cache.current.set(cacheKey, cottureData);
                 setCotture(cottureData);
+                
+                if (response.ricettaParams) {
+                    setRicettaParams(response.ricettaParams);
+                }
             }
         } catch (err) {
             setError(err.message);
@@ -43,6 +48,7 @@ const useCottura = (lavorazioneId) => {
             const response = await apiFunction(...args);
             if (response.success) {
                 setCotture(response.data);
+                setError(null);
             }
             return response;
         } catch (err) {
@@ -57,8 +63,13 @@ const useCottura = (lavorazioneId) => {
     }, []);
 
     const addCottura = useCallback(async (datiCottura = {}) => {
-        return handleApiCall(() => LavorazioneApi.addCottura(lavorazioneId, datiCottura));
-    }, [lavorazioneId, handleApiCall]);
+        const defaultParams = ricettaParams || {};
+        const cotturaData = {
+            ...defaultParams,
+            ...datiCottura
+        };
+        return handleApiCall(() => LavorazioneApi.addCottura(lavorazioneId, cotturaData));
+    }, [lavorazioneId, handleApiCall, ricettaParams]);
 
     const updateCottura = useCallback(async (cotturaId, field, value) => {
         console.group('📝 Update Cottura');
@@ -82,11 +93,22 @@ const useCottura = (lavorazioneId) => {
     }, [lavorazioneId, cotture, getCotture]);
 
     const removeCottura = useCallback(async (cotturaId) => {
-        return handleApiCall(() => LavorazioneApi.removeCottura(lavorazioneId, cotturaId));
-    }, [lavorazioneId, handleApiCall]);
+        console.group('🗑️ Rimozione Cottura');
+        try {
+            const response = await handleApiCall(() => 
+                LavorazioneApi.removeCottura(lavorazioneId, cotturaId)
+            );
+            if (response.success) {
+                await getCotture(true);
+            }
+            return response;
+        } finally {
+            console.groupEnd();
+        }
+    }, [lavorazioneId, handleApiCall, getCotture]);
 
-    const startCottura = useCallback(async (cotturaId,) => {
-        console.group('🔥 Start Cottura');
+    const startCottura = useCallback(async (cotturaId) => {
+        console.group('🔥 Avvio Cottura');
         try {
             const cottura = cotture.find(c => c._id === cotturaId);
             if (!cottura) {
@@ -110,7 +132,7 @@ const useCottura = (lavorazioneId) => {
     }, [lavorazioneId, cotture, getCotture]);
 
     const completaCottura = useCallback(async (cotturaId) => {
-        console.group('✅ Completa Cottura');
+        console.group('✅ Completamento Cottura');
         try {
             const cottura = cotture.find(c => c._id === cotturaId);
             if (!cottura) {
@@ -136,12 +158,20 @@ const useCottura = (lavorazioneId) => {
         if (lavorazioneId) {
             getCotture();
         }
+        
+        // Catturiamo il riferimento alla cache all'interno dell'effect
+        const currentCache = cache.current;
+        
+        return () => {
+            currentCache.clear();
+        };
     }, [lavorazioneId, getCotture]);
-
+    
     return {
         cotture,
         loading,
         error,
+        ricettaParams,
         getCotture,
         addCottura,
         updateCottura,
