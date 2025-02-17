@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import CotturaParameters from './components/CotturaParameters';
 import CotturaTimer from './components/CotturaTimer';
 import CotturaControls from './components/CotturaControls';
 import CotturaForm from './components/CotturaForm';
 import useCotturaState from './hooks/UseCotturaState';
+import { useLavorazioneContext } from '../../../../../context/LavorazioneContext';
+import RicetteApi from '../../../../../../../components/Recipes/services/RicetteApi';
+import Alert from '../../../../../../../components/common/Alert/Alert';
 
 const Container = styled.div`
   display: flex;
@@ -26,95 +29,109 @@ const LoadingMessage = styled.div`
   color: ${({ theme }) => theme.colors.text.secondary};
 `;
 
-const CotturaSection = ({ 
-  lavorazioneId, 
-  ricetta, 
-  tipiCottura, 
-  onError, 
-  onSuccess, 
-  fetchTipiCottura 
-}) => {
+const EmptyState = styled.div`
+  padding: 40px;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  background: ${({ theme }) => theme.colors.background};
+  border-radius: 8px;
+`;
+
+const CotturaSection = ({ lavorazioneId }) => {
+  const { data: { lavorazione } } = useLavorazioneContext();
+  const [ricettaState, setRicettaState] = useState({
+    data: null,
+    loading: true,
+    error: null
+  });
+
   const {
     cotture,
-    loading,
-    editingId,
+    tipiCottura,
+    loading: cottureLoading,
+    handleUpdateCottura,
+    handleStartCottura,
+    handleCompletaCottura,
+    removeCottura,
     handleEdit,
     handleSave,
     handleCancel,
-    handleStartCottura,
-    handleCompletaCottura,
-    removeCottura
+    isEditing,
+    editingId
   } = useCotturaState(lavorazioneId);
 
-  React.useEffect(() => {
-    fetchTipiCottura().catch(() => 
-      onError('Errore nel caricamento dei tipi cottura')
-    );
-  }, [fetchTipiCottura, onError]);
+  useEffect(() => {
+    const loadRicettaData = async () => {
+      if (!lavorazione?.ricetta?._id) {
+        setRicettaState(prev => ({ ...prev, loading: false }));
+        return;
+      }
 
-  if (loading) return <LoadingMessage>Caricamento cotture in corso...</LoadingMessage>;
+      try {
+        const response = await RicetteApi.getRicettaDetails(lavorazione.ricetta._id);
+        setRicettaState({
+          data: response.success ? response.data : null,
+          loading: false,
+          error: !response.success ? 'Errore nel caricamento della ricetta' : null
+        });
+      } catch (error) {
+        setRicettaState({
+          data: null,
+          loading: false,
+          error: error.message
+        });
+      }
+    };
 
-  const handleCotturaStart = async (cotturaId) => {
-    try {
-      await handleStartCottura(cotturaId);
-      onSuccess('Cottura avviata con successo');
-    } catch {
-      onError('Errore nell\'avvio della cottura');
-    }
-  };
+    loadRicettaData();
+  }, [lavorazione?.ricetta?._id]);
 
-  const handleCotturaComplete = async (cotturaId) => {
-    try {
-      await handleCompletaCottura(cotturaId);
-      onSuccess('Cottura completata con successo');
-    } catch {
-      onError('Errore nel completamento della cottura');
-    }
-  };
-
-  const handleCotturaDelete = async (cotturaId) => {
-    try {
-      await removeCottura(cotturaId);
-      onSuccess('Cottura eliminata con successo');
-    } catch {
-      onError('Errore nell\'eliminazione della cottura');
-    }
-  };
+  if (ricettaState.loading && cottureLoading) {
+    return <LoadingMessage>Caricamento in corso...</LoadingMessage>;
+  }
 
   return (
     <Container>
-      {cotture.map(cottura => (
-        <CotturaCard key={cottura._id}>
-          <CotturaParameters 
-            cottura={cottura}
-            ricetta={ricetta}
-            isEditing={editingId === cottura._id}
-            tipiCottura={tipiCottura}
-            onUpdate={(field, value) => handleEdit(cottura._id, { [field]: value })}
-          />
-          
-          {cottura.stato !== 'non_iniziata' && (
-            <CotturaTimer cottura={cottura} />
-          )}
-          
-          <CotturaControls
-            cottura={cottura}
-            isEditing={editingId === cottura._id}
-            onStart={() => handleCotturaStart(cottura._id)}
-            onComplete={() => handleCotturaComplete(cottura._id)}
-            onEdit={() => handleEdit(cottura._id)}
-            onSave={() => handleSave(cottura._id)}
-            onCancel={handleCancel}
-            onDelete={() => handleCotturaDelete(cottura._id)}
-          />
-        </CotturaCard>
-      ))}
-
+      {ricettaState.error && (
+        <Alert severity="error">{ricettaState.error}</Alert>
+      )}
+      
+      {!cotture.length ? (
+        <EmptyState>Nessuna cottura disponibile</EmptyState>
+      ) : (
+        cotture.map(cottura => (
+          <CotturaCard key={cottura._id}>
+            <CotturaParameters 
+              cottura={cottura}
+              ricetta={ricettaState.data}
+              tipiCottura={tipiCottura}
+              isEditing={isEditing && editingId === cottura._id}
+              onUpdate={handleUpdateCottura}
+            />
+            
+            {cottura.stato !== 'non_iniziata' && (
+              <CotturaTimer cottura={cottura} />
+            )}
+            
+            <CotturaControls
+              cottura={cottura}
+              isEditing={isEditing && editingId === cottura._id}
+              onStart={handleStartCottura}
+              onComplete={handleCompletaCottura}
+              onEdit={handleEdit}
+              onSave={handleSave}
+              onCancel={handleCancel}
+              onDelete={removeCottura}
+              disabled={cottureLoading}
+            />
+          </CotturaCard>
+        ))
+      )}
+      
       <CotturaForm
-        ricetta={ricetta}
+        ricetta={ricettaState.data}
         tipiCottura={tipiCottura}
-        onSave={handleSave}
-        onCancel={handleCancel}
+        onSave={handleUpdateCottura}
       />
     </Container>
   );

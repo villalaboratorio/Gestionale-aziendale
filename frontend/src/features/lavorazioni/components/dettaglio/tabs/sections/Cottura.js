@@ -26,14 +26,19 @@ const Cottura = () => {
   const { data: { lavorazione } } = useLavorazioneContext();
   const { tipiCottura, fetchTipiCottura } = useLavorazioneStore();
 
-  // Handlers per feedback utente
+  console.log('Rendering Cottura:', {
+    id,
+    lavorazione,
+    tipiCottura
+  });
+
   const handleError = useCallback((message) => {
     toast.error(message || 'Si è verificato un errore');
   }, []);
 
   const handleSuccess = useCallback((message) => {
     toast.success(message);
-  }, []); 
+  }, []);
 
   if (!lavorazione) {
     return <ErrorMessage>Dati lavorazione non disponibili</ErrorMessage>;
@@ -53,13 +58,10 @@ const Cottura = () => {
   );
 };
 
-
-const CotturaWithProvider = () => {
-  return (
-    <LavorazioneProvider>
-      <Cottura />
-    </LavorazioneProvider>
-  );
-};
+const CotturaWithProvider = () => (
+  <LavorazioneProvider>
+    <Cottura />
+  </LavorazioneProvider>
+);
 
 export default CotturaWithProvider;

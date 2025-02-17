@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo,  } from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import useLavorazione from '../hooks/useLavorazione';
 import useTabNavigation from '../hooks/useTabNavigation';
@@ -7,6 +7,7 @@ import useLavorazioneState from '../hooks/useLavorazioneState';
 const LavorazioneContext = createContext(undefined);
 
 export const LavorazioneProvider = ({ children }) => {
+    console.group('🌍 LavorazioneProvider');
     const { id } = useParams();
     
     const {
@@ -17,6 +18,13 @@ export const LavorazioneProvider = ({ children }) => {
         isNew,
         actions: lavorazioneActions
     } = useLavorazione(id);
+
+    console.log('Dati Lavorazione Provider:', {
+        id,
+        ricettaId: lavorazione?.ricetta?._id,
+        ricetta: lavorazione?.ricetta,
+        lavorazioneCompleta: lavorazione
+    });
 
     const normalizedCollections = useMemo(() => {
         if (!rawCollections?.data) {
@@ -88,6 +96,8 @@ export const LavorazioneProvider = ({ children }) => {
         setError,
         setLoading
     ]);
+
+    console.groupEnd();
 
     return (
         <LavorazioneContext.Provider value={contextValue}>

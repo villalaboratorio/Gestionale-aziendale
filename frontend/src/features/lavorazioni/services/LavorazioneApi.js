@@ -20,11 +20,42 @@ const LavorazioneApi = {
         });
         return await apiService.fetch(`/api/dettaglio-lavorazioni/dashboard?${queryParams}`);
     },
+      async getLavorazione(id, options = {}) {
+          console.group('🔍 getLavorazione');
+          try {
+              const response = await apiService.fetch(`/api/dettaglio-lavorazioni/${id}/informazioni-generali`, options);
+              console.log('Risposta API:', response);
+            
+              if (!response.success) {
+                  throw new Error('Errore nel recupero dati lavorazione');
+              }
 
-    async getLavorazione(id, options = {}) {
-        return apiService.fetch(`/api/dettaglio-lavorazioni/${id}/informazioni-generali`, options);
-    },
+              // Normalizzo i dati della lavorazione
+              const lavorazioneData = {
+                  ...response.data,
+                  ricetta: response.data.ricetta ? {
+                      _id: response.data.ricetta._id,
+                      nome: response.data.ricetta.nome,
+                      cotture: response.data.ricetta.cotture || [],
+                      ...response.data.ricetta
+                  } : null
+              };
 
+              console.log('Dati normalizzati:', lavorazioneData);
+              return {
+                  success: true,
+                  data: lavorazioneData
+              };
+          } catch (error) {
+              console.error('Errore in getLavorazione:', error);
+              return {
+                  success: false,
+                  error: error.message
+              };
+          } finally {
+              console.groupEnd();
+          }
+      },
     async getCollections() {
         return apiService.fetch('/api/dettaglio-lavorazioni/initial-data');
     },

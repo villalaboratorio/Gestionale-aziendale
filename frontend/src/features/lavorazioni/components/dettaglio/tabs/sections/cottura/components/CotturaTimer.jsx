@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import useCotturaTimer from '../hooks/useCotturaTimer';
 
 const TimerContainer = styled.div`
   display: flex;
@@ -59,42 +60,27 @@ const Progress = styled.div`
 `;
 
 const CotturaTimer = ({ cottura }) => {
-  if (!cottura.inizio) return null;
+  const { tempoTrascorso, tempoRimanente, percentualeCompletamento } = useCotturaTimer(cottura);
 
-  const now = new Date();
-  const start = new Date(cottura.inizio);
-  const end = new Date(cottura.finePrevista);
-  
-  const trascorso = now - start;
-  const totale = end - start;
-  const rimanente = end - now;
-  
-  const percentuale = Math.min(100, (trascorso / totale) * 100);
-  
-  const formatTime = (ms) => {
-    const seconds = Math.floor((ms / 1000) % 60);
-    const minutes = Math.floor((ms / (1000 * 60)) % 60);
-    const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  };
+  if (!cottura.inizio) return null;
 
   return (
     <TimerContainer>
       <TimerDisplay>
         <TimerSection>
           <Label>Tempo Trascorso</Label>
-          <Value>{formatTime(trascorso)}</Value>
+          <Value>{tempoTrascorso}</Value>
         </TimerSection>
         
         <TimerSection>
           <Label>Tempo Rimanente</Label>
-          <Value isWarning={rimanente < 0}>{formatTime(Math.abs(rimanente))}</Value>
+          <Value isWarning={tempoRimanente < 0}>{tempoRimanente}</Value>
         </TimerSection>
       </TimerDisplay>
 
       <ProgressBar>
         <Progress 
-          progress={percentuale} 
+          progress={percentualeCompletamento} 
           status={cottura.stato}
         />
       </ProgressBar>
