@@ -1,28 +1,25 @@
 'use strict';
 
-// Dichiarazione esplicita dell'ambiente
 const NODE_ENV = process.env.NODE_ENV || 'development';
-
 const express = require('express');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
+const dashboardRoutes = require('./routes/dashboardRoutes');
 
 const connectDB = require('./config/db');
 const app = express();
 
-// Aggiungi questa configurazione prima del rate limiter
 app.set('trust proxy', 1);
 
-// Rate Limiter Configuration
 const limiter = rateLimit({
-    windowMs: 5 * 60 * 1000,    // 5 minuti
-    max: 1000,                  // 1000 richieste
+    windowMs: 5 * 60 * 1000,
+    max: 1000,
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => req.ip + req.path  // Differenziamo per endpoint
+    keyGenerator: (req) => req.ip + req.path
 });
-// CORS Configuration
+
 const corsOptions = {
     origin: process.env.ALLOWED_ORIGINS?.split(',') || [
         'http://localhost:3000',
@@ -34,12 +31,10 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization']
 };
 
-// Middleware Configuration
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(limiter);
 
-// Request Logger
 const requestLogger = (req, res, next) => {
     const start = Date.now();
     res.on('finish', () => {
@@ -49,8 +44,7 @@ const requestLogger = (req, res, next) => {
     next();
 };
 app.use(requestLogger);
-
-// Model Registration
+app.use('/v2/api', dashboardRoutes);
 const registerModels = async () => {
     console.group('📦 Registrazione Modelli');
     const models = [
@@ -61,7 +55,8 @@ const registerModels = async () => {
         'dettaglioLavorazioneModel',
         'fasiMethodModel',
         'fasiTypeModel',
-        'tipoCotturaModel'
+        'tipoCotturaModel',
+        'materiePrimeModel'
     ];
 
     await Promise.all(models.map(async (model) => {
@@ -75,7 +70,6 @@ const registerModels = async () => {
     console.groupEnd();
 };
 
-// Routes Configuration
 const routes = {
     categoryGoods: require('./routes/categoryGoodsRoutes'),
     categoryRecipes: require('./routes/categoryRecipesRoutes'),
@@ -92,7 +86,6 @@ const routes = {
     tipoCotture: require('./routes/tipoCotturaRoutes')
 };
 
-// Mount Routes
 const mountRoutes = (app, routes) => {
     console.group('🛣️ Registrazione Route');
     Object.entries(routes).forEach(([key, router]) => {
@@ -107,19 +100,21 @@ const mountRoutes = (app, routes) => {
     console.groupEnd();
 };
 
-// Register Routes
 mountRoutes(app, routes);
 
-// Special Route for dettaglio-lavorazioni
-const dettaglioLavorazioneRoutes = require('./routes/dettaglioLavorazioneRoutes');
-app.use('/api/dettaglio-lavorazioni', dettaglioLavorazioneRoutes);
+// Montiamo pianificazione su un percorso diverso
+const pianificazioneRoutes = require('./routes/pianificazioneRoutes');
+app.use('/v2/api/pianificazione', pianificazioneRoutes);
+console.log(`✅ Route "/v2/api/pianificazione" registrata`);
 
-// Base Route
+// Nuova route v2 per lavorazioni
+const lavorazioniRoutes = require('./routes/dettaglioLavorazioneRoutes');
+app.use('/v2/lavorazioni', lavorazioniRoutes);
+
 app.get('/', (req, res) => {
     res.json({ message: 'Backend is running!', status: 'OK' });
 });
 
-// 404 Handler
 app.use((req, res) => {
     console.error(`❌ Risorsa non trovata: ${req.method} ${req.url}`);
     res.status(404).json({ 
@@ -130,7 +125,6 @@ app.use((req, res) => {
     });
 });
 
-// Error Handler
 const errorHandler = (err, req, res, next) => {
     console.error('🚨 Errore:', {
         message: err.message,
@@ -149,7 +143,6 @@ const errorHandler = (err, req, res, next) => {
 };
 app.use(errorHandler);
 
-// Initialize Application
 const initializeApp = async () => {
     try {
         await registerModels();

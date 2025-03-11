@@ -1,18 +1,9 @@
 const express = require('express');
-const { 
-    dashboard, 
-    informazioniGenerali, 
-    cottura, 
-    abbattimento, 
-    assemblaggio, 
-    conservazione,
-    passaggi
-} = require('../controllers/dettaglioLavorazione/index.js');
+const { dashboard,informazioniGenerali,passaggiLavorazione  } = require('../controllers/dettaglioLavorazione');
 const { validateObjectId } = require('../middleware/validation');
-
 const router = express.Router();
-
-// Definiamo il nuovo sistema di logging
+const dettaglioLavorazioneController = require('../controllers/dettaglioLavorazioneController');
+// Logging middleware
 const simpleLog = (operation) => {
     return (req, res, next) => {
         console.group(`🎯 API Call: ${operation}`);
@@ -24,94 +15,57 @@ const simpleLog = (operation) => {
     };
 };
 
-// Aggiorniamo le route usando simpleLog invece di simpleLog
-router.route('/dashboard')
+// Dashboard routes
+router.route('/')
     .get(simpleLog('getDashboardData'), dashboard.getDashboardData)
     .post(simpleLog('createDashboardItem'), dashboard.createDashboardItem);
 
-router.route('/dashboard/stats')
+router.route('/stats')
     .get(simpleLog('getDashboardStats'), dashboard.getDashboardStats);
 
-router.route('/dashboard/trends')
+router.route('/trends')
     .get(simpleLog('getTrends'), dashboard.getTrends);
-// 2. Rotte Informazioni Generali
-router.route('/initial-data')
+  
+    router.route('/initial-data')
     .get(simpleLog('getInitialData'), informazioniGenerali.getInitialData);
 
-router.route('/:id/informazioni-generali')
-    .all(validateObjectId)
-    .get(simpleLog('getInformazioniGenerali'), informazioniGenerali.getInformazioniGenerali)
-    .put(simpleLog('updateInformazioniGenerali'), informazioniGenerali.updateInformazioniGenerali);
-
-// 3. Rotte Cottura
-// Routes per la gestione cottura
-router.route('/:id/cotture')
-    .all(validateObjectId)
-    .get(simpleLog('getParametriCottura'), cottura.getParametriCottura)
-    .post(simpleLog('addCottura'), cottura.addCottura);
-
-router.route('/:id/cotture/:cotturaId')
-    .all(validateObjectId)
-    .delete(simpleLog('removeCottura'), cottura.removeCottura);
-
-router.route('/:id/cotture/start')
-    .all(validateObjectId)
-    .post(simpleLog('startCottura'), cottura.startCottura);
-
-router.route('/:id/cotture/complete')
-    .all(validateObjectId)
-    .post(simpleLog('completeCottura'), cottura.completeCottura);
-
-    router.route('/:id/cotture/:cotturaId')
-        .all(validateObjectId)
-        .delete(simpleLog('removeCottura'), cottura.removeCottura)
-        .put(simpleLog('updateCottura'), cottura.updateCottura);
-// 4. Rotte Abbattimento
-router.route('/:id/abbattimento')
-    .all(validateObjectId)
-    .get(simpleLog('getAbbattimento'), abbattimento.getAbbattimento);
-
-router.route('/:id/abbattimento/start')
-    .all(validateObjectId)
-    .post(simpleLog('startAbbattimento'), abbattimento.startAbbattimento);
-
-// 5. Rotte Assemblaggio
-router.route('/:id/assemblaggio')
-    .all(validateObjectId)
-    .get(simpleLog('getAssemblaggio'), assemblaggio.getAssemblaggio);
-
-router.route('/:id/assemblaggio/crudo')
-    .all(validateObjectId)
-    .put(simpleLog('updateCrudo'), assemblaggio.updateCrudo);
-
-// 6. Rotte Conservazione
-router.route('/:id/conservazione')
-    .all(validateObjectId)
-    .get(simpleLog('getConservazione'), conservazione.getConservazione);
-
-router.route('/:id/conservazione/imballaggio')
-    .all(validateObjectId)
-    .put(simpleLog('updateImballaggio'), conservazione.updateImballaggio);
-
-// 7. Rotte CRUD base
-router.route('/')
-    .get(simpleLog('getDashboardLavorazioni'), dashboard.getDashboardLavorazioni)
-    .post(simpleLog('createDashboardItem'), dashboard.createDashboardItem);
 
 router.route('/:id')
     .all(validateObjectId)
     .get(simpleLog('getDashboardById'), dashboard.getDashboardById)
     .put(simpleLog('updateDashboard'), dashboard.updateDashboard)
     .delete(simpleLog('deleteDashboardItem'), dashboard.deleteDashboardItem);
-    router.get('/:id/passaggi', passaggi.getPassaggi);
-    router.post('/:id/passaggi', passaggi.addPassaggio);
-    router.put('/:id/passaggi/:passaggioId', passaggi.updatePassaggio);
-    router.delete('/:id/passaggi/:passaggioId', passaggi.deletePassaggio);
-    
-    
+
+router.route('/:id/timeline')
+    .all(validateObjectId)
+    .get(simpleLog('getTimeline'), dashboard.getTimeline);
+
+
+
+router.route('/:id/avanzamento')
+    .all(validateObjectId)
+    .get(simpleLog('getAvanzamento'), dashboard.getAvanzamento);
+
+ // Rotte per i passaggi di lavorazione - senza middleware
+router.get('/:id/passaggi', dettaglioLavorazioneController.getPassaggiLavorazione);
+router.put('/:id/passaggi', dettaglioLavorazioneController.updatePassaggiLavorazione);
+router.post('/:id/passaggi', dettaglioLavorazioneController.createPassaggio);
+router.delete('/:id/passaggi/:passaggioId', dettaglioLavorazioneController.deletePassaggio);
+router.post('/:id/passaggi/:passaggioId/start', dettaglioLavorazioneController.startPassaggio);
+router.post('/:id/passaggi/:passaggioId/complete', dettaglioLavorazioneController.completePassaggio);
+router.post('/:id/passaggi/:passaggioId/note', dettaglioLavorazioneController.addNoteToPassaggio);
+router.get('/:id/passaggi/status', dettaglioLavorazioneController.getPassaggiStatus);
+// Route per assemblaggio
+router.get('/:id/assemblaggio', dettaglioLavorazioneController.getAssemblaggio);
+router.put('/:id/assemblaggio/:fase', dettaglioLavorazioneController.updateFaseAssemblaggio);
+router.post('/:id/assemblaggio/:fase/start', dettaglioLavorazioneController.startFaseAssemblaggio);
+router.post('/:id/assemblaggio/:fase/complete', dettaglioLavorazioneController.completeFaseAssemblaggio);
+router.get('/:id/assemblaggio/status', dettaglioLavorazioneController.getAssemblaggioStatus);
+//ROTTE ABBATTIMENTO
+router.get('/:id/abbattimento', dettaglioLavorazioneController.getAbbattimento);
+router.post('/:id/abbattimento/start', dettaglioLavorazioneController.startAbbattimento);
+router.post('/:id/abbattimento/complete', dettaglioLavorazioneController.completeAbbattimento);
+router.post('/:id/abbattimento/temperature-check', dettaglioLavorazioneController.registerTemperatureCheck);
+router.put('/:id/abbattimento/notes', dettaglioLavorazioneController.updateNotes);
+router.put('/:id/abbattimento', dettaglioLavorazioneController.updateAbbattimento); // Nuova rotta per l'aggiornamento completo
 module.exports = router;
-
-
-
-
-

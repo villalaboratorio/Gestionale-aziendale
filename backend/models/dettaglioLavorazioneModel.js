@@ -26,7 +26,14 @@ const dettaglioLavorazioneSchema = new Schema({
         type: Schema.Types.ObjectId, 
         ref: 'ProcessingStates'  // Updated from 'StatoLavorazione' to 'ProcessingStates'
     },
-
+    operatore: {
+        type: String,
+        default: ''
+    },
+    motivazioneUrgenza: {
+        type: String,
+        default: ''
+    },
     // Date e Priorità
     dataLavorazione: { 
         type: Date, 
@@ -67,7 +74,8 @@ const dettaglioLavorazioneSchema = new Schema({
             isCompleted: {
                 type: Boolean,
                 default: false
-            }
+            },
+            note: String  // Aggiungiamo il campo note
         },
         lavaggioPulizia: {
             oraInizio: Date,
@@ -80,7 +88,8 @@ const dettaglioLavorazioneSchema = new Schema({
             isCompleted: {
                 type: Boolean,
                 default: false
-            }
+            },
+            note: String  // Aggiungiamo il campo note
         },
         taglioMacinaAffetta: {
             oraInizio: Date,
@@ -93,10 +102,10 @@ const dettaglioLavorazioneSchema = new Schema({
             isCompleted: {
                 type: Boolean,
                 default: false
-            }
+            },
+            note: String  // Aggiungiamo il campo note
         }
     }],
-
     // Cottura
     cotture: [{
         tipoCottura: { 
@@ -150,21 +159,97 @@ const dettaglioLavorazioneSchema = new Schema({
             ore: String,
             addetto: String,
             temperatura: Number,
-            controlliQualita: Boolean
+            controlliQualita: Boolean,
+            stato: {
+                type: String,
+                enum: ['non_iniziata', 'in_corso', 'completata'],
+                default: 'non_iniziata'
+            },
+            dataCompletamento: Date,
+            note: String
+        },
+        dopoCottura: {
+            ore: String,
+            addetto: String,
+            temperatura: Number,
+            controlliQualita: Boolean,
+            stato: {
+                type: String,
+                enum: ['non_iniziata', 'in_corso', 'completata'],
+                default: 'non_iniziata'
+            },
+            dataCompletamento: Date,
+            note: String
         },
         dopoCotturaParziale: {
             ore: String,
             addetto: String,
             temperatura: Number,
-            controlliQualita: Boolean
+            controlliQualita: Boolean,
+            stato: {
+                type: String,
+                enum: ['non_iniziata', 'in_corso', 'completata'],
+                default: 'non_iniziata'
+            },
+            dataCompletamento: Date,
+            note: String
         },
-        dopoCotturaCompleta: {
+        crudoSegueCottura: {
             ore: String,
             addetto: String,
             temperatura: Number,
-            controlliQualita: Boolean
+            controlliQualita: Boolean,
+            stato: {
+                type: String,
+                enum: ['non_iniziata', 'in_corso', 'completata'],
+                default: 'non_iniziata'
+            },
+            dataCompletamento: Date,
+            note: String
         }
     },
+//  definizione dell'oggetto abbattimento
+abbattimento: {
+    inizio: Date,
+    fine: Date,
+    temperaturaIniziale: Number,
+    temperaturaFinale: Number,
+    addetto: String,
+    tempoTotale: Number,
+    verificaTemperatura: Boolean,
+    responsabileVerifica: String,
+    note: String,
+    stato: {
+        type: String,
+        enum: ['non_iniziato', 'in_corso', 'completato'],
+        default: 'non_iniziato'
+    },
+    validazione: {
+        isValidato: Boolean,
+        valutazione: {
+            type: String,
+            enum: ['ottimale', 'veloce', 'lento']
+        },
+        note: String
+    },
+    // Aggiungi questi nuovi campi
+    tempoResiduoStimato: Number,
+    dataFineStimata: Date,
+    readings: [{
+        timestamp: Date,
+        temperatura: Number
+    }],
+    tipoAlimento: {
+        type: String,
+        enum: ['LIQUIDS', 'LIGHT_SOLID', 'MEDIUM_SOLID', 'DENSE_SOLID', 'FROZEN', 'CUSTOM'],
+        default: 'MEDIUM_SOLID'
+    },
+    tipoAbbattimento: {
+        type: String,
+        enum: ['positivo', 'negativo'],
+        default: 'positivo'
+    }
+},
 
     // Conservazione
     conservazione: {
@@ -192,7 +277,22 @@ const dettaglioLavorazioneSchema = new Schema({
         verificaImballaggio: Boolean,
         responsabileVerifica: String
     },
-
+// Informazioni Porzioni e Peso
+porzioniPreviste: { 
+    type: Number, 
+    min: 0,
+    default: 0
+},
+grammiPerPorzione: { 
+    type: Number, 
+    min: 0,
+    default: 0
+},
+pesoTotale: {
+    type: Number,
+    min: 0,
+    default: 0
+},
     // Valori Nutrizionali
     valoriNutrizionali: {
         calorie: Number,

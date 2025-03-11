@@ -1,0 +1,55 @@
+.control-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 0.75rem 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    margin-bottom: 1.5rem;
+  }
+  
+  .control-bar-status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .status-badge {
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    color: white;
+  }
+  
+  .status-in_progress {
+    background-color: #3b82f6;
+  }
+  
+  .status-completed {
+    background-color: #10b981;
+  }
+  
+  .status-pending {
+    background-color: #f59e0b;
+  }
+  
+  .status-cancelled {
+    background-color: #ef4444;
+  }
+  
+  .scheda-badge {
+    font-size: 0.875rem;
+    color: #64748b;
+    background-color: #f1f5f9;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .control-bar-actions {
+    display: flex;
+    align-items: center;
+  }
+  

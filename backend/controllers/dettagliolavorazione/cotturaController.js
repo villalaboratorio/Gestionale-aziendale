@@ -129,7 +129,7 @@ const cotturaController = {
                 {
                     $set: {
                         'cotture.$.tipoCottura': tipoCottura,
-                        'cotture.$.temperaturaTarget': temperaturaTarget,
+                        'cotture.$.temperatura': temperaturaTarget,
                         'cotture.$.addetto': addetto,
                         'cotture.$.updatedAt': new Date()
                     }

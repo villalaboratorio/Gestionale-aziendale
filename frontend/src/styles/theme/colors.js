@@ -4,6 +4,7 @@ export const colors = {
     success: '#16a34a',
     warning: '#eab308',
     danger: '#dc2626',
+    info: '#0ea5e9',  // Aggiungi questa riga
     background: '#f8fafc',
     surface: '#ffffff',
     text: {

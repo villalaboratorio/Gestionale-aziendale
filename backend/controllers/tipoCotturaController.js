@@ -14,7 +14,27 @@ const getTipoCotture = async (req, res) => {
         });
     }
 };
-
+// Nuova funzione per la versione moderna - formato ApiResponse
+const getTipoCottureModern = async (req, res) => {
+    try {
+        const tipoCotture = await TipoCottura.find()
+            .sort('name')
+            .select('name description temperaturaMin temperaturaMax tempoMedioCottura');
+        
+        res.json({
+            success: true,
+            data: tipoCotture,
+            timestamp: Date.now()
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Errore nel recupero dei tipi cottura',
+            error: error.message,
+            timestamp: Date.now()
+        });
+    }
+};
 // GET - Singolo tipo cottura
 const getTipoCottura = async (req, res) => {
     try {

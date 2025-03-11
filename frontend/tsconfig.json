@@ -1,10 +1,67 @@
 {
-    "compilerOptions": {
-      "baseUrl": "src",
-      "paths": {
-        "@/*": ["*"],
-        "@features/*": ["features/*"]
-      }
+  "compilerOptions": {
+    // Opzioni di base
+    "baseUrl": "src",
+    "moduleResolution": "node",
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    
+    // Compatibilità JavaScript
+    "allowJs": true,
+    "checkJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    
+    // Regole TypeScript rilassate per retrocompatibilità
+    "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "strictBindCallApply": false,
+    "strictPropertyInitialization": false,
+    "noImplicitThis": false,
+    "noImplicitReturns": false,
+    "alwaysStrict": false,
+    
+    // Abilita supporto decoratori (necessario per @Service)
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    
+    // Migliora la coerenza dei file
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    
+    // Configurazione moduli
+    "module": "esnext",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    
+    // Configurazione React
+    "jsx": "react-jsx",
+    
+    // Path aliases migliorati
+    "paths": {
+      // Manteniamo i path esistenti per retrocompatibilità
+      "*": ["*"],
+      "@/*": ["*"],
+      "@core/*": ["core/*"],
+      "@features/*": ["features/*"],
+      "types/*": ["types/*"],
+      "core/*": ["core/*"],
+      "features/*": ["features/*"],
+      
+      // Aggiungiamo path più specifici per il nuovo modulo pianificazione
+      "@core-api/*": ["core/api/*"],
+      "@core-services/*": ["core/services/*"],
+      "@core-events/*": ["core/events/*"],
+      "@core-utils/*": ["core/utils/*"],
+      "@pianificazione/*": ["features/pianificazione/*"],
+      "@pianificazione-types/*": ["features/pianificazione/types/*"],
+      "@pianificazione-services/*": ["features/pianificazione/services/*"]
     }
-  }
-  
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

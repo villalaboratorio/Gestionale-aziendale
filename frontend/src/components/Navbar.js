@@ -7,12 +7,12 @@ const Navbar = () => {
     const location = useLocation();
 
     const navItems = [
-        { path: '/', icon: FaHome, label: 'Home' },
+        { path: '/v2/dashboard', icon: FaHome, label: 'Home' },
         { path: '/ricette', icon: FaBook, label: 'Ricette' },
         { path: '/materie-prime', icon: FaFlask, label: 'Materie Prime' },
-        { path: '/pianificazione-lavorazioni', icon: FaMagic, label: 'Pianificazione' },
+        { path: '/v2/pianificazione', icon: FaMagic, label: 'Pianificazione' },
         // Aggiorniamo il percorso per la nuova dashboard
-        { path: '/dashboard-lavorazioni', icon: FaIndustry, label: 'Lavorazioni' },
+        { path: '/v2/lavorazioni', icon: FaIndustry, label: 'Lavorazioni' },
         { path: '/pannello-opzioni', icon: FaCogs, label: 'Utility' },
         { path: '/styleguide', icon: FaBookmark, label: 'Stile' }
     ];

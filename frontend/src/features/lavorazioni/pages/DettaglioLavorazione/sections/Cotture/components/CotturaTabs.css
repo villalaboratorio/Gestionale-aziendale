@@ -1,0 +1,45 @@
+.cottura-tab .card {
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.cottura-tab .timer-warning {
+  color: #fd7e14;
+}
+
+.cottura-tab .timer-danger {
+  color: #dc3545;
+}
+
+/* Stili per le badge e indicatori di stato */
+.cottura-tab .badge {
+  font-weight: 500;
+  padding: 0.35em 0.65em;
+}
+
+/* Stili per i bottoni nella card header */
+.cottura-tab .card-header button {
+  margin-left: 0.5rem;
+}
+
+/* Feedback stato attivo per controlli */
+.cottura-tab .btn-group .btn.active {
+  z-index: 1;
+}
+
+/* Migliora leggibilità delle badge */
+.cottura-tab .badge.bg-secondary {
+  background-color: #6c757d !important;
+}
+
+.cottura-tab .badge.bg-primary {
+  background-color: #0d6efd !important;
+}
+
+.cottura-tab .badge.bg-success {
+  background-color: #198754 !important;
+}
+
+.cottura-tab .badge.bg-info {
+  background-color: #0dcaf0 !important;
+}
