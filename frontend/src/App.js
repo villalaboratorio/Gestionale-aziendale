@@ -3,7 +3,6 @@ import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
 import Layout from './components/Layout';
-import HomePage from './pages/HomePage';
 import PannelloOpzioni from './pages/PannelloOpzioni';
 import CategoryGoodsPage from './pages/CategoryGoodsPage';
 import ProcessingStatesPage from './pages/ProcessingStatesPage';
@@ -22,13 +21,14 @@ import StyleGuide from './pages/StyleGuide';
 import FasiTypePage from './pages/FasiTypePage';
 import FasiMethodPage from './pages/FasiMethodPage';
 import TipoCotturaPage from './pages/TipoCotturaPage';
+import { Dashboard } from 'features/dashboard/page/Dashboard';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <Layout>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/pannello-opzioni" element={<PannelloOpzioni />} />
           <Route path="/category-goods" element={<CategoryGoodsPage />} />
           <Route path="/processing-states" element={<ProcessingStatesPage />} />

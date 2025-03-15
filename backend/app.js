@@ -24,7 +24,9 @@ const corsOptions = {
     origin: process.env.ALLOWED_ORIGINS?.split(',') || [
         'http://localhost:3000',
         'http://192.168.1.235:3000',
-        'http://localhost:5000'
+        'http://localhost:5000',
+        'https://alchimiafoodlab.com',
+        'https://www.alchimiafoodlab.com'
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

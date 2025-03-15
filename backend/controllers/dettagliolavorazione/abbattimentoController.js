@@ -1,13 +1,13 @@
-/**
- * Controller per la gestione dell'abbattimento nelle lavorazioni
- * Gestisce tutte le operazioni CRUD e le operazioni specializzate dell'abbattimento
- */
-
 const DettaglioLavorazione = require('../../models/dettaglioLavorazioneModel');
 const { createResponse } = require('../../utils/responseUtils');
 const logger = require('../../utils/logger');
 
-// Utility per calcolare la durata in minuti tra due date
+/**
+ * Calcola la durata in minuti tra due date
+ * @param {Date|string} inizio - Data di inizio
+ * @param {Date|string} fine - Data di fine
+ * @returns {number} - Durata in minuti
+ */
 const calcolaDurata = (inizio, fine) => {
     return Math.round((new Date(fine) - new Date(inizio)) / (1000 * 60));
 };
@@ -416,7 +416,7 @@ const abbattimentoController = {
                 'abbattimento.validazione': {
                     isValidato: true,
                     valutazione,
-                    note: notes || ''
+                    note: note || ''
                 }
             };
 
